@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>@model.title</title>
+		<link rel="stylesheet" href="/stylesheets/style.css">
+	</head>
+	<body>
+		@html.block('content')
+		
+		<div id="container"></div>
+		
+		<div id="selected"></div>
+		
+		<form method="POST">
+			<input type="hidden" id="results" name="results"/>
+			<button type="submit" id="create">Create</button>
+		</form>
+		
+		<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="jasb729ylbv36rm"></script>
+		<script type="text/javascript" src="/javascripts/create.js"></script>
+	</body>
+</html>

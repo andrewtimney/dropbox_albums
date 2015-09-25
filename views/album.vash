@@ -1,0 +1,12 @@
+@html.extend('layout', function(model){
+
+    @html.block('content', function(model){
+		
+		<h2>Album @model.album.id</h2>
+		
+		@model.album.files.forEach(function(file){
+			<img src="@file.thumbnailLink" />
+		})
+	})
+	
+})

@@ -6,8 +6,6 @@
 		
 		<p>@model.body</p>
 		
-		<div id="container"></div>
-		
 		<button id="select">Select Dropbox Pictures</button>
 		
 		<div id="selected"></div>

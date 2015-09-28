@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
   
   var album = {
     files: files,
-    expires: new Date().setDate(new Date().getDate()+1),
+    expires: new Date().setHours(new Date().getHours()+4),
     id: shortid.generate()
   };
   console.log(album.id);
@@ -37,6 +37,8 @@ router.get('/o', function(req, res, next) {
   
   var file = fs.readFileSync(filePath, 'utf8');
   var album = JSON.parse(file);
+  
+  console.log('is date', album.expires, album.expires instanceof Date);
   
   res.render('album', {album: album});
 });

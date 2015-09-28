@@ -8,6 +8,8 @@
 		
 		<div id="container"></div>
 		
+		<button id="select">Select Dropbox Pictures</button>
+		
 		<div id="selected"></div>
 		
 		<form method="POST">

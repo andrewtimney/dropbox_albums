@@ -14,9 +14,11 @@ router.post('/', function(req, res, next) {
   
   var files = JSON.parse(req.body.results);
   
+  var now = moment().add(7, 'days');
+  
   var album = {
     files: files,
-    expires: new Date().setHours(new Date().getHours()+4),
+    expires: now.valueOf(),
     id: shortid.generate()
   };
   console.log(album.id);
@@ -40,7 +42,7 @@ router.get('/o', function(req, res, next) {
   var album = JSON.parse(file);
   
   var date = moment(album.expires);
-  console.log('is date', date > moment());
+  
   if(date < moment()){
     res.render('albumNotFound', {id:album.id});
   }else{

@@ -22,7 +22,7 @@ router.post('/', function(req, res, next) {
   console.log(album.id);
     
   fs.writeFile(
-    path.join(__dirname, '../published', album.id+'.json'), 
+    path.join(__dirname, '../../published', album.id+'.json'), 
     JSON.stringify(album), 
     function(err){
       if(err) throw err;    
@@ -33,7 +33,7 @@ router.post('/', function(req, res, next) {
 
 router.get('/o', function(req, res, next) {
   
-  var filePath = path.join(__dirname, '../published', req.query.i+'.json');
+  var filePath = path.join(__dirname, '../../published', req.query.i+'.json');
   console.log(filePath);
   
   var file = fs.readFileSync(filePath, 'utf8');

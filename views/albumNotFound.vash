@@ -1,0 +1,11 @@
+@html.extend('layout', function(model){
+
+    @html.block('content', function(model){
+		
+		<h2>Album: @model.id</h2>
+		
+		<p>This is album cannot be found.</p>
+		
+	})
+	
+})

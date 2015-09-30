@@ -3,6 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var shortid = require('shortid');
 var path = require('path');
+var moment = require('moment');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -38,9 +39,13 @@ router.get('/o', function(req, res, next) {
   var file = fs.readFileSync(filePath, 'utf8');
   var album = JSON.parse(file);
   
-  console.log('is date', album.expires, album.expires instanceof Date);
-  
-  res.render('album', {album: album});
+  var date = moment(album.expires);
+  console.log('is date', date > moment());
+  if(date < moment()){
+    res.render('albumNotFound', {id:album.id});
+  }else{
+    res.render('album', {album: album});
+  }
 });
 
 module.exports = router;

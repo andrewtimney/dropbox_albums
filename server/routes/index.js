@@ -4,6 +4,7 @@ var fs = require('fs');
 var shortid = require('shortid');
 var path = require('path');
 var moment = require('moment');
+var storage = require('../azure');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,11 +15,9 @@ router.post('/', function(req, res, next) {
   
   var files = JSON.parse(req.body.results);
   
-  var now = moment().add(7, 'days');
-  
   var album = {
     files: files,
-    expires: now.valueOf(),
+    expires: moment().add(7, 'days').valueOf(),
     id: shortid.generate()
   };
   console.log(album.id);

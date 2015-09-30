@@ -1,0 +1,1 @@
+var azureStorage = require('azure-storage');

@@ -2,7 +2,7 @@ var azureStorage = require('azure-storage');
 var config = require('../azureconfig');
 
 var CONTAINER_NAME = "images";
-var blobService = azureStorage.createBlobService(config.accountName, config.accountKey);
+var blobService = azureStorage.createBlobService('UseDevelopmentStorage=true;');//config.accountName, config.accountKey);
 
 blobService.createContainerIfNotExists(CONTAINER_NAME, {
   publicAccessLevel: 'blob'

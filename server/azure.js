@@ -1,5 +1,5 @@
 var azureStorage = require('azure-storage');
-var config = require('../azureconfig');
+//var config = require('../azureconfig');
 var path = require('path');
 
 // if(!process.env.IsAzure){

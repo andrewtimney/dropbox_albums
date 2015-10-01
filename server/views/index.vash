@@ -2,7 +2,7 @@
 
     @html.block('content', function(model){
 		
-		<h2>Dropbox Album</h2>
+		<h2>Dropbox Album Create</h2>
 		
 		<p>@model.body</p>
 		

@@ -14,5 +14,5 @@ gulp.task('server', function(){
       console.log('something changed', arguments);
   });
   
-  gulp.watch(['bin/www', 'app.js', 'server/routes/**/*.js'], [server.run]);
+  gulp.watch(['bin/www', 'app.js', 'server/routes/**/*.js' ,'server/*.js'], [server.run]);
 });

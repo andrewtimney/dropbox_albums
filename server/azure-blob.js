@@ -6,11 +6,10 @@ var IMG_CONTAINER_NAME = "images";
 var ALBUM_CONTAINER_NAME = "albums";
 
 var blobService;
-
 if(process.env.NODE_ENV === 'production'){
-	blobService = azureStorage.createBlobService('UseDevelopmentStorage=true;');
+	blobService = azureStorage.createBlobService();
 }else{
-	blobService = azureStorage.createBlobService(); 
+	blobService = azureStorage.createBlobService('UseDevelopmentStorage=true;'); 
 }
 
 blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {

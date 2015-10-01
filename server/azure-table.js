@@ -2,16 +2,16 @@ var azureStorage = require('azure-storage');
 var shortid = require('shortid');
 
 var TABLE_NAME = "albums";
-var tableService;
 
+var tableService;
 if(process.env.NODE_ENV === 'production'){
-	tableService = azureStorage.createTableService('UseDevelopmentStorage=true;');
+	tableService = azureStorage.createTableService();
 }else{
-	tableService = azureStorage.createTableService(); 
+	tableService = azureStorage.createTableService('UseDevelopmentStorage=true;'); 
 }
 
 tableService.createTableIfNotExists(TABLE_NAME, function(error, result, response){
-	if(error) console.log(`Could not create Table ${TABLE_NAME}`,error);
+	if(error) console.error(`Could not create Table ${TABLE_NAME}`,error);
 });
 
 var entGen = azureStorage.TableUtilities.entityGenerator;
@@ -24,10 +24,20 @@ function createAlbum(al){
 		files: entGen.String(JSON.stringify(al.files))
 	};
 	tableService.insertEntity(TABLE_NAME, album, function(error, result, response){
-		if(error) console.log(`Could not Creat Album ${al.id}`);
+		if(error) console.error(`Could not Create Album ${al.id}`, error);
+	});
+}
+
+function getAlbum(id, callback){
+	tableService.retrieveEntity(TABLE_NAME, "1", id, function(error, result, response){
+		callback(result, error);
+		if(error){
+			console.error(`Could not retrieve album ${id}`, error);
+		}
 	});
 }
 
 module.exports = {
-	createAlbum: createAlbum
+	createAlbum: createAlbum,
+	getAlbum: getAlbum
 };

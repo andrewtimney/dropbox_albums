@@ -6,5 +6,7 @@
 	</head>
 	<body>
 		<h1>Whoops!</h1>
+		<p>@model.message</p>
+		<p>@model.error</p>
 	</body>
 </html>

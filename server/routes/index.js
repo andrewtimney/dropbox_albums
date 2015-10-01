@@ -4,7 +4,8 @@ var fs = require('fs');
 var shortid = require('shortid');
 var path = require('path');
 var moment = require('moment');
-var storage = require('../azure');
+var azureTable = require('../azure-table');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,36 +18,34 @@ router.post('/', function(req, res, next) {
   
   var album = {
     files: files,
-    expires: moment().add(7, 'days').valueOf(),
+    expires: moment().add(7, 'days').toDate(),
     id: shortid.generate()
   };
   console.log(album.id);
     
-  fs.writeFile(
-    path.join(__dirname, '../../published', album.id+'.json'), 
-    JSON.stringify(album), 
-    function(err){
-      if(err) throw err;    
-    });
+  azureTable.createAlbum(album);
   
   res.render('index', { title: 'Express', body: album.id });
 });
 
 router.get('/o', function(req, res, next) {
   
-  var filePath = path.join(__dirname, '../../published', req.query.i+'.json');
-  console.log(filePath);
-  
-  var file = fs.readFileSync(filePath, 'utf8');
-  var album = JSON.parse(file);
-  
-  var date = moment(album.expires);
-  
-  if(date < moment()){
-    res.render('albumNotFound', {id:album.id});
-  }else{
-    res.render('album', {album: album});
-  }
+  azureTable.getAlbum(req.query.i, function(result, error){
+    
+    if(error){
+      res.render('albumNotFound', {id:req.query.i}); 
+    }
+     
+    var files = JSON.parse(result.files._);
+    
+     if(result.expires._ <  new Date()){
+      res.render('albumNotFound', {id:req.query.i});
+     }else{
+      res.render('album', {
+        album: {id:req.query.i, files: files}
+      });
+     }
+  });
 });
 
 module.exports = router;

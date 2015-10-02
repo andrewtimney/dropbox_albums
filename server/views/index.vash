@@ -2,15 +2,17 @@
 
     @html.block('content', function(model){
 		
-		<h2>Dropbox Album Create</h2>
+		<h2>Album</h2>
 		
 		<p>@model.body</p>
 		
 		<button id="select">Select Dropbox Pictures</button>
 		
-		<div id="selected"></div>
+		<form method="POST">	
+			<input type="email" name="email" placeholder="Email address" required/>
+			
+			<div id="selected"></div>
 		
-		<form method="POST">
 			<input type="hidden" id="results" name="results"/>
 			<button type="submit" id="create">Create</button>
 		</form>

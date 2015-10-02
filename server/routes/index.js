@@ -5,11 +5,11 @@ var shortid = require('shortid');
 var path = require('path');
 var moment = require('moment');
 var azureTable = require('../azure-table');
-
+var azureBlob = require('../azure-blob');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Album' });
 });
 
 router.post('/', function(req, res, next) {
@@ -19,13 +19,15 @@ router.post('/', function(req, res, next) {
   var album = {
     files: files,
     expires: moment().add(7, 'days').toDate(),
-    id: shortid.generate()
+    id: shortid.generate(),
+    email: req.body.email
   };
   console.log(album.id);
     
   azureTable.createAlbum(album);
+  azureBlob.uploadImages(files);
   
-  res.render('index', { title: 'Express', body: album.id });
+  res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });
 });
 
 router.get('/o', function(req, res, next) {

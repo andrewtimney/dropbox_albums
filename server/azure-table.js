@@ -21,7 +21,8 @@ function createAlbum(al){
 		PartitionKey: entGen.String("1"),
   		RowKey: entGen.String(al.id),
 		expires: entGen.DateTime(al.expires),
-		files: entGen.String(JSON.stringify(al.files))
+		files: entGen.String(JSON.stringify(al.files)),
+		email: entGen.String(al.email)
 	};
 	tableService.insertEntity(TABLE_NAME, album, function(error, result, response){
 		if(error) console.error(`Could not Create Album ${al.id}`, error);

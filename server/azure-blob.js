@@ -16,14 +16,14 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {
-publicAccessLevel: 'blob'
+	publicAccessLevel: 'blob'
 }, 
 function(error, result, response){
 	if(error) console.log(`Could not create Container ${IMG_CONTAINER_NAME}`,error);	
 });
 
 blobService.createContainerIfNotExists(ALBUM_CONTAINER_NAME, {
-publicAccessLevel: 'blob'
+	publicAccessLevel: 'blob'
 }, 
 function(error, result, response){
 	if(error) console.log(`Could not create Container ${ALBUM_CONTAINER_NAME}`,error);	
@@ -49,6 +49,7 @@ function uploadAlbum(file){
 }
 
 function downloadImage(url){
+	
 	var ext = path.extname(url);
 	var tempPath = path.join(__dirname, '../temp', shortid.generate() + ext);
 	console.log('tempPath', tempPath);
@@ -70,7 +71,6 @@ function uploadImages(files){
 		});
 	}
 }
-
 
 module.exports = {
 	uploadImages:uploadImages

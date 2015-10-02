@@ -7,6 +7,10 @@ var moment = require('moment');
 var azureTable = require('../azure-table');
 var azureBlob = require('../azure-blob');
 
+// router.get('/rc', function(req, res, next){
+//   res.sendFile(path.join(__dirname, '../../public/views/react.html'));
+// });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Album' });

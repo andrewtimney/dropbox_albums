@@ -16,11 +16,15 @@
 			<input type="hidden" id="results" name="results"/>
 			<button type="submit" id="create">Create</button>
 		</form>
+		
+		<div id="react">
+		
+		</div>
 	})
 	
 	@html.block('script', function(){
 		<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="jasb729ylbv36rm"></script>
-		<script type="text/javascript" src="/javascripts/create.js"></script>
+		<script type="text/babel" src="/javascripts/create.jsx"></script>
 	})
 	
 })

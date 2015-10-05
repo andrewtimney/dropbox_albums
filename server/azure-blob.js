@@ -30,12 +30,15 @@ function(error, result, response){
 });
 
 function upload(container, file){
+	console.log(`Upload file: ${file}`);
 	blobService.createBlockBlobFromLocalFile(
 		container, path.basename(file), file, 
 		function(error, result, response) {
 			if (!error) {
 				// file uploaded
 				console.log(`File uploaded: ${file}`);
+			}else{
+				console.error(error);
 			}
 		});
 }
@@ -48,16 +51,19 @@ function uploadAlbum(file){
 	upload(ALBUM_CONTAINER_NAME, file);
 }
 
-function downloadImage(url){
+function downloadImage(url, callback){
 	
 	var ext = path.extname(url);
 	var tempPath = path.join(__dirname, '../temp', shortid.generate() + ext);
 	console.log('tempPath', tempPath);
 	var file = fs.createWriteStream(tempPath);
 	console.log('url', url);
+	
 	var request = http.get(url, function(response) {
-		console.log(response);
-		response.pipe(file);
+		var stream = response.pipe(file);
+		stream.on('finish', function () {
+			callback(tempPath, url);	
+		});
 	}).on('error', function(e){
 		console.error(`Could not get file: ${url}`, e);
 	});
@@ -66,8 +72,7 @@ function downloadImage(url){
 function uploadImages(files){
 	for(var i = 0; i < files.length; i++){
 		downloadImage(files[i].link, function(file){
-			console.log('downloaded', file);
-			//uploadImage(file);
+			uploadImage(file);
 		});
 	}
 }

@@ -26,6 +26,7 @@ function createAlbum(al){
 	};
 	tableService.insertEntity(TABLE_NAME, album, function(error, result, response){
 		if(error) console.error(`Could not Create Album ${al.id}`, error);
+		console.log('Album created');
 	});
 }
 

@@ -19,14 +19,14 @@ blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {
 	publicAccessLevel: 'blob'
 }, 
 function(error, result, response){
-	if(error) console.log(`Could not create Container ${IMG_CONTAINER_NAME}`,error);	
+	if(error) console.error(`Could not create Container ${IMG_CONTAINER_NAME}`,error);	
 });
 
 blobService.createContainerIfNotExists(ALBUM_CONTAINER_NAME, {
 	publicAccessLevel: 'blob'
 }, 
 function(error, result, response){
-	if(error) console.log(`Could not create Container ${ALBUM_CONTAINER_NAME}`,error);	
+	if(error) console.error(`Could not create Container ${ALBUM_CONTAINER_NAME}`,error);	
 });
 
 function upload(container, file){

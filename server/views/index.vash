@@ -12,7 +12,7 @@
 	
 	@html.block('script', function(){
 		<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="jasb729ylbv36rm"></script>
-		<script type="text/babel" src="/javascripts/create.jsx"></script>
+		<script type="text/babel" src="/build/create.js"></script>
 	})
 	
 })

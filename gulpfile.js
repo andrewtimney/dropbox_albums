@@ -1,11 +1,15 @@
 var gulp = require("gulp");
 var server = require('gulp-express');
+var babel = require("gulp-babel");
 
 gulp.task('default', function() {
   // place code for your default task here
+  return gulp.src("public/javascripts/*.jsx")
+    .pipe(babel())
+    .pipe(gulp.dest("public/build"));
 });
 
-gulp.task('server', function(){
+gulp.task('server', ['default'], function(){
   
   server.run(['bin/www']);
   

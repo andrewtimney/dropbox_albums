@@ -29,7 +29,7 @@ router.post('/', function(req, res, next) {
   console.log(album.id);
     
   azureTable.createAlbum(album);
-  azureBlob.uploadImages(files);
+  azureBlob.uploadImages(files, album.id);
   
   res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });
 });

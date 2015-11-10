@@ -66,13 +66,17 @@ function downloadImage(url, id, callback){
 		stream.on('finish', function () {
 			callback(tempPath, url);	
 		});
-		fs.rmdirSync(tempFolder);
+		// fs.unlinkSync(tempPath);
+		// fs.rmdirSync(tempFolder);
 	}).on('error', function(e){
 		console.error(`Could not get file: ${url}`, e);
 	});
 }
 
 function uploadImages(files, id){
+	
+	
+	
 	for(var i = 0; i < files.length; i++){
 		downloadImage(files[i].link, id, function(file){
 			uploadImage(file, id);

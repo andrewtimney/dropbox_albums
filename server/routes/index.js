@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
     id: shortid.generate(),
     email: req.body.email
   };
-  console.log(album.id);
+  console.log(album);
     
   azureTable.createAlbum(album);
   azureBlob.uploadImages(files, album.id);

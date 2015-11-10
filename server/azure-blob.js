@@ -29,10 +29,10 @@ function(error, result, response){
 	if(error) console.error(`Could not create Container ${ALBUM_CONTAINER_NAME}`,error);	
 });
 
-function upload(container, file){
+function upload(container, file, id){
 	console.log(`Upload file: ${file}`);
 	blobService.createBlockBlobFromLocalFile(
-		container, path.basename(file), file, 
+		container, path.join(id, path.basename(file)), file, 
 		function(error, result, response) {
 			if (!error) {
 				// file uploaded
@@ -43,18 +43,20 @@ function upload(container, file){
 		});
 }
 
-function uploadImage(file){
-	upload(IMG_CONTAINER_NAME, file);
+function uploadImage(file, id){
+	upload(IMG_CONTAINER_NAME, file, id);
 }
 
 function uploadAlbum(file){
 	upload(ALBUM_CONTAINER_NAME, file);
 }
 
-function downloadImage(url, callback){
+function downloadImage(url, id, callback){
 	
-	var ext = path.extname(url);
-	var tempPath = path.join(__dirname, '../temp', shortid.generate() + ext);
+	var tempFolder = path.join(__dirname, '../temp', id);
+	fs.mkdirSync(tempFolder);
+	
+	var tempPath = path.join(tempFolder, path.basename(url));
 	console.log('tempPath', tempPath);
 	var file = fs.createWriteStream(tempPath);
 	console.log('url', url);
@@ -64,15 +66,16 @@ function downloadImage(url, callback){
 		stream.on('finish', function () {
 			callback(tempPath, url);	
 		});
+		fs.rmdirSync(tempFolder);
 	}).on('error', function(e){
 		console.error(`Could not get file: ${url}`, e);
 	});
 }
 
-function uploadImages(files){
+function uploadImages(files, id){
 	for(var i = 0; i < files.length; i++){
-		downloadImage(files[i].link, function(file){
-			uploadImage(file);
+		downloadImage(files[i].link, id, function(file){
+			uploadImage(file, id);
 		});
 	}
 }

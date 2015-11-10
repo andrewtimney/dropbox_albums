@@ -2,3 +2,4 @@ node_modules
 published
 .settings
 azureconfig.json
+.vscode

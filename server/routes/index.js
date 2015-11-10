@@ -18,16 +18,16 @@ router.post('/', function(req, res, next) {
   
   var album = {
     files: files,
+    azureFiles: [],
     expires: moment().add(7, 'days').toDate(),
     id: shortid.generate(),
     email: req.body.email
   };
-  console.log(album.id);
     
-  //azureTable.createAlbum(album);
   azureBlob.uploadImages(files, album)
     .then(function(){
       console.log('success');
+      azureTable.createAlbum(album);
     }, function(err){
       console.log('whops', err);
     });

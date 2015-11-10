@@ -35,9 +35,8 @@ function upload(container, file, album){
 			container, path.join(album.id, path.basename(file)), file, 
 			function(error, result, response) {
 				if (!error) {
-					// file uploaded
 					fs.unlinkSync(file);
-					console.log(`File removed: ${file}`);
+					album.azureFiles.push(result);
 					resolve(result);
 				}else{
 					console.error(error);

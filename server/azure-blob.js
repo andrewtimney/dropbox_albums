@@ -1,9 +1,9 @@
 var azureStorage = require('azure-storage');
-//var config = require('../azureconfig');
 var path = require('path');
-var http = require('https');
+var request = require('request');
 var fs = require('fs');
 var shortid = require('shortid');
+var Promise = require('bluebird');
 
 var IMG_CONTAINER_NAME = "images";
 var ALBUM_CONTAINER_NAME = "albums";
@@ -16,72 +16,84 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {
-	publicAccessLevel: 'blob'
-}, 
-function(error, result, response){
-	if(error) console.error(`Could not create Container ${IMG_CONTAINER_NAME}`,error);	
-});
+		publicAccessLevel: 'blob'
+	}, 
+	function(error, result, response){
+		if(error) console.error(`Could not create Container ${IMG_CONTAINER_NAME}`,error);	
+	});
 
 blobService.createContainerIfNotExists(ALBUM_CONTAINER_NAME, {
-	publicAccessLevel: 'blob'
-}, 
-function(error, result, response){
-	if(error) console.error(`Could not create Container ${ALBUM_CONTAINER_NAME}`,error);	
-});
+		publicAccessLevel: 'blob'
+	}, 
+	function(error, result, response){
+		if(error) console.error(`Could not create Container ${ALBUM_CONTAINER_NAME}`,error);	
+	});
 
-function upload(container, file, id){
-	console.log(`Upload file: ${file}`);
-	blobService.createBlockBlobFromLocalFile(
-		container, path.join(id, path.basename(file)), file, 
-		function(error, result, response) {
-			if (!error) {
-				// file uploaded
-				console.log(`File uploaded: ${file}`);
-			}else{
-				console.error(error);
-			}
-		});
+function upload(container, file, album){
+	return new Promise(function(resolve, reject){
+		blobService.createBlockBlobFromLocalFile(
+			container, path.join(album.id, path.basename(file)), file, 
+			function(error, result, response) {
+				if (!error) {
+					fs.unlinkSync(file);
+					album.azureFiles.push(result);
+					resolve(result);
+				}else{
+					console.error(error);
+					reject(error);
+				}
+			});
+	});
 }
 
-function uploadImage(file, id){
-	upload(IMG_CONTAINER_NAME, file, id);
+function uploadImage(file, album){
+	upload(IMG_CONTAINER_NAME, file, album);
 }
 
 function uploadAlbum(file){
 	upload(ALBUM_CONTAINER_NAME, file);
 }
 
-function downloadImage(url, id, callback){
-	
-	var tempFolder = path.join(__dirname, '../temp', id);
-	fs.mkdirSync(tempFolder);
-	
-	var tempPath = path.join(tempFolder, path.basename(url));
-	console.log('tempPath', tempPath);
-	var file = fs.createWriteStream(tempPath);
-	console.log('url', url);
-	
-	var request = http.get(url, function(response) {
-		var stream = response.pipe(file);
-		stream.on('finish', function () {
-			callback(tempPath, url);	
-		});
-		// fs.unlinkSync(tempPath);
-		// fs.rmdirSync(tempFolder);
-	}).on('error', function(e){
-		console.error(`Could not get file: ${url}`, e);
+function downloadImage(url, album){
+	return new Promise(function(resolve, reject){
+		var tempFolder = path.join(__dirname, '../temp', album.id);
+		try{
+			fs.mkdirSync(tempFolder);
+		}catch(err){
+			console.log('Folder exists, deal with it');
+		}
+		
+		var tempPath = path.join(tempFolder, path.basename(url));
+		var fileStream = fs.createWriteStream(tempPath);
+		console.log(`tempPath: ${tempPath}, url: ${url}`);
+		
+		var proxy = request.defaults({'proxy':'http://127.0.0.1:8888'});
+		proxy.get(url)
+			.on('response', 
+				function(response) {
+					var stream = response.pipe(fileStream);
+					stream.on('finish', function () {
+						resolve({ tempPath: tempPath, url: url });	
+					});
+				})
+			.on('error', reject);
 	});
 }
 
-function uploadImages(files, id){
-	
-	
-	
+function uploadImages(files, album){
+	var promises = [];
 	for(var i = 0; i < files.length; i++){
-		downloadImage(files[i].link, id, function(file){
-			uploadImage(file, id);
-		});
+		promises.push(downloadImage(files[i].link, album)
+			.then(function(file){
+				return uploadImage(file.tempPath, album);
+			})
+		);
 	}
+	return Promise.all(promises)
+		.then(function(){
+			console.log('remove folder ${album.id}');
+			//fs.rmdirSync(path.join(__dirname, '../temp', album.id));
+		});
 }
 
 module.exports = {

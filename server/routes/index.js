@@ -7,10 +7,6 @@ var moment = require('moment');
 var azureTable = require('../azure-table');
 var azureBlob = require('../azure-blob');
 
-// router.get('/rc', function(req, res, next){
-//   res.sendFile(path.join(__dirname, '../../public/views/react.html'));
-// });
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Album' });
@@ -22,14 +18,19 @@ router.post('/', function(req, res, next) {
   
   var album = {
     files: files,
+    azureFiles: [],
     expires: moment().add(7, 'days').toDate(),
     id: shortid.generate(),
     email: req.body.email
   };
-  console.log(album);
     
-  azureTable.createAlbum(album);
-  azureBlob.uploadImages(files, album.id);
+  azureBlob.uploadImages(files, album)
+    .then(function(){
+      console.log('success');
+      azureTable.createAlbum(album);
+    }, function(err){
+      console.log('whops', err);
+    });
   
   res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });
 });
@@ -44,7 +45,7 @@ router.get('/o', function(req, res, next) {
      
     var files = JSON.parse(result.files._);
     
-     if(result.expires._ <  new Date()){
+     if(result.expires._ < new Date()){
       res.render('albumNotFound', {id:req.query.i});
      }else{
       res.render('album', {

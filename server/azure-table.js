@@ -21,7 +21,7 @@ function createAlbum(al){
 		PartitionKey: entGen.String("1"),
   		RowKey: entGen.String(al.id),
 		expires: entGen.DateTime(al.expires),
-		files: entGen.String(JSON.stringify(al.files)),
+		files: entGen.String(JSON.stringify(al.azureFiles)),
 		email: entGen.String(al.email)
 	};
 	tableService.insertEntity(TABLE_NAME, album, function(error, result, response){

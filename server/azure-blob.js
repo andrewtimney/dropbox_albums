@@ -36,7 +36,7 @@ function upload(container, file, album){
 			function(error, result, response) {
 				if (!error) {
 					fs.unlinkSync(file);
-					album.azureFiles.push(result);
+					album.azureFiles.push(decodeURI(result));
 					resolve(result);
 				}else{
 					console.error(error);
@@ -47,7 +47,7 @@ function upload(container, file, album){
 }
 
 function uploadImage(file, album){
-	upload(IMG_CONTAINER_NAME, file, album);
+	return upload(IMG_CONTAINER_NAME, file, album);
 }
 
 function uploadAlbum(file){
@@ -67,8 +67,8 @@ function downloadImage(url, album){
 		var fileStream = fs.createWriteStream(tempPath);
 		console.log(`tempPath: ${tempPath}, url: ${url}`);
 		
-		var proxy = request.defaults({'proxy':'http://127.0.0.1:8888'});
-		proxy.get(url)
+		//var proxy = request.defaults({'proxy':'http://127.0.0.1:8888'});
+		request.get(url)
 			.on('response', 
 				function(response) {
 					var stream = response.pipe(fileStream);
@@ -96,6 +96,24 @@ function uploadImages(files, album){
 		});
 }
 
+function getImages(id){
+	return new Promise(function(resolve, reject){
+		blobService.listBlobsSegmentedWithPrefix(IMG_CONTAINER_NAME, id, null, function(error, result, response){
+			if(error) reject(error);
+			resolve(result);
+		});
+	});
+}
+
 module.exports = {
-	uploadImages:uploadImages
+	uploadImages: uploadImages,
+	getImages: getImages,
+	createBlobUrl: function(file){
+		//http://127.0.0.1:10000/devstoreaccount1/images
+		if(process.env.NODE_ENV === 'production'){
+			return 'http://dropboxdropbox.blob.core.windows.net/'+IMG_CONTAINER_NAME+'/'+file;
+		}else{
+			return 'http://127.0.0.1:10000/devstoreaccount1/'+IMG_CONTAINER_NAME+'/'+file;
+		}
+	}
 };

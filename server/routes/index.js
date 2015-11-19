@@ -27,7 +27,7 @@ router.post('/', function(req, res, next) {
   azureBlob.uploadImages(files, album)
     .then(function(){
       console.log('success');
-      azureTable.createAlbum(album);
+       azureTable.createAlbum(album);
     }, function(err){
       console.log('whops', err);
     });
@@ -44,14 +44,21 @@ router.get('/o', function(req, res, next) {
     }
      
     var files = JSON.parse(result.files._);
+    console.log(files);
     
-     if(result.expires._ < new Date()){
+    if(result.expires._ < new Date()){
       res.render('albumNotFound', {id:req.query.i});
-     }else{
-      res.render('album', {
-        album: {id:req.query.i, files: files}
-      });
-     }
+    } 
+     
+    // azureBlob.getImages(req.query.i)
+    //   .then(function(files){
+        res.render('album', {
+          album: {
+            id:req.query.i, 
+            files: files.map(function(file){ return encodeURI(azureBlob.createBlobUrl(file)); })}
+          });
+      //});
+    
   });
 });
 

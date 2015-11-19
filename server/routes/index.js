@@ -55,7 +55,12 @@ router.get('/o', function(req, res, next) {
         res.render('album', {
           album: {
             id:req.query.i, 
-            files: files.map(function(file){ return encodeURI(azureBlob.createBlobUrl(file)); })}
+            files: files.map(function(file){ 
+                // console.log('encodeURI', encodeURI(file));
+                // console.log('decodeURI', decodeURI(file));
+                // console.log('encodeURIComponent', encodeURIComponent(file));
+                return azureBlob.createBlobUrl(file); 
+              })}
           });
       //});
     

@@ -36,7 +36,7 @@ function upload(container, file, album){
 			function(error, result, response) {
 				if (!error) {
 					fs.unlinkSync(file);
-					album.azureFiles.push(decodeURI(result));
+					album.azureFiles.push(decodeURI(result.replace('\\', '/')));
 					resolve(result);
 				}else{
 					console.error(error);
@@ -63,7 +63,7 @@ function downloadImage(url, album){
 			console.log('Folder exists, deal with it');
 		}
 		
-		var tempPath = path.join(tempFolder, path.basename(url));
+		var tempPath = path.join(tempFolder, path.basename(url).replace('%', '-'));
 		var fileStream = fs.createWriteStream(tempPath);
 		console.log(`tempPath: ${tempPath}, url: ${url}`);
 		

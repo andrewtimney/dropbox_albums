@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var fs = require('fs');
-var shortid = require('shortid');
+ var shortid = require('shortid');
 var path = require('path');
 var moment = require('moment');
 var azureTable = require('../azure-table');
@@ -26,10 +25,9 @@ router.post('/', function(req, res, next) {
     
   azureBlob.uploadImages(files, album)
     .then(function(){
-      console.log('success');
        azureTable.createAlbum(album);
     }, function(err){
-      console.log('whops', err);
+      console.error('whops', err);
     });
   
   res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });
@@ -44,26 +42,18 @@ router.get('/o', function(req, res, next) {
     }
      
     var files = JSON.parse(result.files._);
-    console.log(files);
     
     if(result.expires._ < new Date()){
       res.render('albumNotFound', {id:req.query.i});
     } 
      
-    // azureBlob.getImages(req.query.i)
-    //   .then(function(files){
-        res.render('album', {
-          album: {
-            id:req.query.i, 
-            files: files.map(function(file){ 
-                // console.log('encodeURI', encodeURI(file));
-                // console.log('decodeURI', decodeURI(file));
-                // console.log('encodeURIComponent', encodeURIComponent(file));
-                return azureBlob.createBlobUrl(file); 
-              })}
-          });
-      //});
-    
+    res.render('album', {
+      album: {
+        id:req.query.i, 
+        files: files.map(function(file){ 
+            return azureBlob.createBlobUrl(file); 
+          })}
+      });
   });
 });
 

@@ -28,7 +28,9 @@ var DropboxButton = React.createClass({
 	},
 	render: function(){
 		return <div>
-				<button onClick={this.handleClick}>
+				<button 
+				 onClick={this.handleClick} 
+				 className="mdl-button mdl-js-button mdl-button--raised">
 				 Select Dropbox Pictures
 			    </button>
 			  </div>;

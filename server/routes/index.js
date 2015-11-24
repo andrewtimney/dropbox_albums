@@ -3,8 +3,8 @@ var router = express.Router();
  var shortid = require('shortid');
 var path = require('path');
 var moment = require('moment');
-var azureTable = require('../azure-table');
-var azureBlob = require('../azure-blob');
+var azureTable = require('../azure/azure-table');
+var azureBlob = require('../azure/azure-blob');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

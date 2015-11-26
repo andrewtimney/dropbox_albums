@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
- var shortid = require('shortid');
+var shortid = require('shortid');
 var path = require('path');
 var moment = require('moment');
 var azureTable = require('../azure/azure-table');
 var azureBlob = require('../azure/azure-blob');
+var imageService = require('../azure/image-service');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,11 +24,11 @@ router.post('/', function(req, res, next) {
     email: req.body.email
   };
     
-  azureBlob.uploadImages(files, album)
+  imageService.uploadImages(album)
     .then(function(){
        azureTable.createAlbum(album);
     }, function(err){
-      console.error('whops', err);
+       console.error('whops', err);
     });
   
   res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });

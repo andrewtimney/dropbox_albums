@@ -9,23 +9,21 @@ function downloadImage(url, folderName){
 		var tempFolder = utils.getTempFolder(folderName);
 		var tempPath = utils.getTempPath(tempFolder, url);
 		var fileStream = fs.createWriteStream(tempPath);
-		//fileStream.on('open', function(){
 			blob.download(url)
-				.then(function(response){
-					var stream = response.pipe(fileStream);
-					stream.on('finish', function () {
-						resolve({ tempPath: tempPath, url: url });	
-					});
-				},
-				reject);
-		//});
+			.then(function(response){
+				var stream = response.pipe(fileStream);
+				stream.on('finish', function () {
+					resolve({ tempPath: tempPath, url: url });	
+				});
+			},
+			reject);
 	});
 }
 
 function uploadImage(file, album){
 	return blob.upload(file, album.id)
 		.then(function(result){
-			//fs.unlinkSync(file);
+			fs.unlinkSync(file);
 			album.azureFiles.push(decodeURI(result.replace('\\', '/')));
 		});
 }

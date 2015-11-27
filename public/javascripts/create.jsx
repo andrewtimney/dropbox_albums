@@ -1,3 +1,5 @@
+var Button = ReactBootstrap.Button;
+
 var Images = React.createClass({
 	setMode(url){
 		return url.replace(/(mode=)[^\&]+/, 'mode=crop');
@@ -28,11 +30,11 @@ var DropboxButton = React.createClass({
 	},
 	render: function(){
 		return <div>
-				<button 
+				<Button 
 				 onClick={this.handleClick} 
-				 className="mdl-button mdl-js-button mdl-button--raised">
+				 bsStyle="primary">
 				 Select Dropbox Pictures
-			    </button>
+			    </Button>
 			  </div>;
 	}
 });

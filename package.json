@@ -27,8 +27,7 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1",
-    "gulp-express": "^0.3.5",
+    "gulp-babel": "^6.1.1",
     "gulp-live-server": "0.0.29"
   }
 }

@@ -1,5 +1,5 @@
 var gulp = require("gulp");
-var server = require('gulp-express');
+var gls = require('gulp-live-server');
 var babel = require("gulp-babel");
 
 gulp.task('default', function() {
@@ -10,13 +10,15 @@ gulp.task('default', function() {
 });
 
 gulp.task('server', ['default'], function(){
-  
-  server.run(['bin/www']);
-  
-  gulp.watch(['public/**/*.js', 'public/**/*.css', 'server/views/**/*.vash'], function(event){
-      server.notify(event)
-      console.log('something changed', arguments);
+
+  var server = gls.new('./bin/www');
+  server.start();
+
+  gulp.watch(['public/**/*.js', 'public/**/*.css'], function(event){
+      server.notify.apply(server, [event])
   });
-  
-  gulp.watch(['bin/www', 'app.js', 'server/routes/**/*.js' ,'server/*.js'], [server.run]);
+  //
+  gulp.watch(['bin/www', 'app.js', 'server/routes/**/*.js' ,'server/*.js', 'server/views/**/*.vash'], function(){
+     server.start.bind(server)
+   });
 });

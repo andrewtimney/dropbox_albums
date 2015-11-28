@@ -13,9 +13,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  
+
   var files = JSON.parse(req.body.results);
-  
+
   var album = {
     files: files,
     azureFiles: [],
@@ -23,36 +23,36 @@ router.post('/', function(req, res, next) {
     id: shortid.generate(),
     email: req.body.email
   };
-    
+
   imageService.uploadImages(album)
     .then(function(){
        azureTable.createAlbum(album);
     }, function(err){
        console.error('whops', err);
     });
-  
+
   res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });
 });
 
 router.get('/o', function(req, res, next) {
-  
+
   azureTable.getAlbum(req.query.i, function(result, error){
-    
+
     if(error){
-      res.render('albumNotFound', {id:req.query.i}); 
+      res.render('albumNotFound', {id:req.query.i});
     }
-     
+
     var files = JSON.parse(result.files._);
-    
+
     if(result.expires._ < new Date()){
       res.render('albumNotFound', {id:req.query.i});
-    } 
-     
+    }
+
     res.render('album', {
       album: {
-        id:req.query.i, 
-        files: files.map(function(file){ 
-            return azureBlob.createBlobUrl(file); 
+        id:req.query.i,
+        files: files.map(function(file){
+            return azureBlob.createBlobUrl(file);
           })}
       });
   });

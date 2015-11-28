@@ -13,9 +13,13 @@ var Images = React.createClass({
 	render(){
 		var images = [];
 		for(var i = 0; i < this.props.images.length; i++){
-			images.push(<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)} />);
+			images.push(
+				<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)} />
+			);
 		}
-		return <div id="selected">{images}</div> 
+		return <div id="selected">
+			{images}
+		</div>;
 	}
 });
 
@@ -30,8 +34,8 @@ var DropboxButton = React.createClass({
 	},
 	render: function(){
 		return <div>
-				<Button 
-				 onClick={this.handleClick} 
+				<Button
+				 onClick={this.handleClick}
 				 bsStyle="primary">
 				 Select Dropbox Pictures
 			    </Button>

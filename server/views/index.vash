@@ -1,18 +1,18 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
-		
-		<h2>Album</h2>
-		
+
+		<h2>Albums.zzz</h2>
+
 		<p>@model.body</p>
-		
+
 		<div id="react">
 		</div>
 	})
-	
+
 	@html.block('script', function(){
 		<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="jasb729ylbv36rm"></script>
 		<script type="text/javascript" src="/build/create.js"></script>
 	})
-	
+
 })

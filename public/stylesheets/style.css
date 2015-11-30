@@ -14,3 +14,7 @@ a {
 #selected img{
  padding-right: 5px;
 }
+
+.image{
+  border:3px solid #2780e3;
+}

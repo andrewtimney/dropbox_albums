@@ -18,7 +18,8 @@ gulp.task('server', ['default'], function(){
       server.notify.apply(server, [event])
   });
   //
-  gulp.watch(['bin/www', 'app.js', 'server/routes/**/*.js' ,'server/*.js', 'server/views/**/*.vash'], function(){
+  gulp.watch(['bin/www', 'app.js', 'server/routes/**/*.js' ,'server/*.js',
+  'server/views/**/*.vash' ,'public/javascripts/*.jsx'], function(){
      server.start.bind(server)
    });
 });

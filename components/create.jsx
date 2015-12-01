@@ -2,6 +2,8 @@ var Button = ReactBootstrap.Button;
 var Grid = ReactBootstrap.Grid;
 var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
+var Input = ReactBootstrap.Input;
+var Alert = ReactBootstrap.Alert;
 
 var Images = React.createClass({
 	setMode(url){
@@ -60,7 +62,7 @@ var Form = React.createClass({
 	render: function(){
 		return <div>
 				<DropboxButton files={this.state.files} onSuccess={this.gotFiles} />
-				<form method="POST">
+				<form method="POST" className="">
 					<input type="email" name="email" placeholder="Email Address" required
 						className="form-control" />
 					<Images images={this.state.files} />
@@ -73,16 +75,29 @@ var Form = React.createClass({
 
 var Create = React.createClass({
 	getInitialState(){
-		return { files: []};
+		return { files: [], showHelp: false};
 	},
 	gotFiles(files){
 		this.setState({files:files});
 	},
+	toggleHelp(){
+		this.setState({showHelp: !this.state.showHelp});
+	},
 	render(){
-	 return	<Grid>
+		let createButton = <Button bsStyle="default">
+													Create Album
+												</Button>;
+		let createClassName = this.state.files.length === 0 ? 'hide' : 'show';
+		let helpText = this.state.showHelp ? 'Hide' : 'How does it work?';
+		let helpClass = this.state.showHelp ? 'show' : 'hide';
+		return	<Grid>
 						<Row>
 							<Col md={12}>
 								<h1>Share your dropbox pictures</h1>
+								<a onClick={this.toggleHelp}>{helpText}</a>
+								<Alert bsStyle="info" className={helpClass}>
+									This should probably be useful but it's not.
+								</Alert>
 								<hr/>
 							</Col>
 						</Row>
@@ -91,10 +106,10 @@ var Create = React.createClass({
 								<DropboxButton files={this.state.files} onSuccess={this.gotFiles} />
 							</Col>
 							<Col md={4}>
-								<input type="email" name="email" placeholder="Email Address" />
-								<Button bsStyle="default">
-									Create Album
-								</Button>
+								<form className={createClassName}>
+									<Input type="email" name="email" placeholder="Email Address"
+										buttonAfter={createButton} />
+								</form>
 							</Col>
 						</Row>
 						<Row>

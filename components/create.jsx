@@ -15,12 +15,16 @@ var Images = React.createClass({
 	setThumbnailProps(url){
 		return this.setBoundingBox(this.setMode(url));
 	},
+	onRemove(index){
+		this.props.onRemove(index);
+	},
 	render(){
 		var images = [];
 		var line = this.props.images.length > 0 ? <hr /> : '';
 		for(var i = 0; i < this.props.images.length; i++){
 			images.push(
-				<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)} className="image" />
+				<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)}
+					className="image" onClick={this.onRemove.bind(this, i)} />
 			);
 		}
 
@@ -83,6 +87,10 @@ var Create = React.createClass({
 	toggleHelp(){
 		this.setState({showHelp: !this.state.showHelp});
 	},
+	removeImage(index){
+		this.state.files.splice(index, 1);
+		this.setState({files: this.state.files});
+	},
 	render(){
 		let createButton = <Button bsStyle="default">
 													Create Album
@@ -114,7 +122,7 @@ var Create = React.createClass({
 						</Row>
 						<Row>
 							<Col md={12}>
-								<Images images={this.state.files} />
+								<Images images={this.state.files} onRemove={this.removeImage} />
 							</Col>
 						</Row>
 					</Grid>;

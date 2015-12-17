@@ -25,11 +25,11 @@ router.post('/', function(req, res, next) {
   };
 
   imageService.uploadImages(album)
-    .then(function(){
+    .then(function(al){
       console.log('Images done');
-       azureTable.createAlbum(album);
+      azureTable.createAlbum(al);
     }, function(err){
-       console.error('whops', err);
+      console.error('whops', err);
     });
 
   res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });

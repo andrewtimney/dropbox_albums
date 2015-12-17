@@ -29,7 +29,6 @@ function downloadImage(url, folderName){
 function uploadImage(file, album){
 	return blob.upload(file, album.id)
 		.then(function(result){
-			//fs.unlinkSync(file);
 			album.azureFiles.push(decodeURI(result.replace('\\', '/')));
 		});
 }
@@ -45,7 +44,9 @@ function uploadImages(album){
 				})
 		);
 	}
-	return Promise.all(promises);
+	return Promise.all(promises).then(function(){
+		return album;
+	});
 }
 
 module.exports = {

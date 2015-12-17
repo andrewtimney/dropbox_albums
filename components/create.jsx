@@ -92,7 +92,7 @@ var Create = React.createClass({
 		this.setState({files: this.state.files});
 	},
 	render(){
-		let createButton = <Button bsStyle="default">
+		let createButton = <Button bsStyle="default" type="submit">
 													Create Album
 												</Button>;
 		let createClassName = this.state.files.length === 0 ? 'hide' : 'show';
@@ -114,9 +114,11 @@ var Create = React.createClass({
 								<DropboxButton files={this.state.files} onSuccess={this.gotFiles} />
 							</Col>
 							<Col md={4}>
-								<form className={createClassName}>
+								<form className={createClassName} method="POST">
 									<Input type="email" name="email" placeholder="Email Address"
 										buttonAfter={createButton} />
+									<input type="hidden" id="results" name="results"
+										value={JSON.stringify(this.state.files)} />
 								</form>
 							</Col>
 						</Row>

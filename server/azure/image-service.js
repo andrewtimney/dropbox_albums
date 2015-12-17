@@ -1,29 +1,35 @@
 var blob = require('./azure-blob');
 var utils = require('../utils')
-var Promise = require('bluebird'); 
+var Promise = require('bluebird');
 var fs = require('fs');
 var path = require('path');
 
 function downloadImage(url, folderName){
 	return new Promise(function(resolve, reject){
-		var tempFolder = utils.getTempFolder(folderName);
-		var tempPath = utils.getTempPath(tempFolder, url);
-		var fileStream = fs.createWriteStream(tempPath);
-			blob.download(url)
-			.then(function(response){
-				var stream = response.pipe(fileStream);
-				stream.on('finish', function () {
-					resolve({ tempPath: tempPath, url: url });	
-				});
-			},
-			reject);
+		try{
+				var tempFolder = utils.getTempFolder(folderName);
+				var tempPath = utils.getTempPath(tempFolder, url);
+
+				var fileStream = fs.createWriteStream(tempPath);
+				blob.download(url, tempPath)
+				.then(function(response){
+					 var stream = response.pipe(fileStream);
+					 stream.on('finish', function () {
+					 	resolve({ tempPath: tempPath, url: url });
+					 });
+				},
+				reject);
+			}
+			catch(error){
+				 console.error('DownloadImage', error, folderName, url, tempFolder);
+			}
 	});
 }
 
 function uploadImage(file, album){
 	return blob.upload(file, album.id)
 		.then(function(result){
-			fs.unlinkSync(file);
+			//fs.unlinkSync(file);
 			album.azureFiles.push(decodeURI(result.replace('\\', '/')));
 		});
 }

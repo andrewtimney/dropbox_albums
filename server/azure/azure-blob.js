@@ -11,24 +11,20 @@ var blobService;
 if(process.env.NODE_ENV === 'production'){
 	blobService = azureStorage.createBlobService();
 }else{
-	blobService = azureStorage.createBlobService('UseDevelopmentStorage=true;'); 
+	blobService = azureStorage.createBlobService('UseDevelopmentStorage=true;');
 }
 
 blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {
 		publicAccessLevel: 'blob'
-	}, 
+	},
 	function(error, result, response){
-		if(error) console.error(`Could not create Container ${IMG_CONTAINER_NAME}`,error);	
+		if(error) console.error(`Could not create Container ${IMG_CONTAINER_NAME}`,error);
 	});
 
 
-function download(url){
+function download(url, file){
 	return new Promise(function(resolve, reject){
-		 resolve(request(url));
-		 	// .on('response', function(response){
-			// 	 resolve(response);
-			//  })
-			//  .on('error', reject);
+			resolve(request.get(url));
 	});
 }
 
@@ -37,7 +33,10 @@ function upload(filePath, folder){
 		blobService.createBlockBlobFromLocalFile(
 			IMG_CONTAINER_NAME, path.join(folder, path.basename(filePath)), filePath,
 			function(error, result, response){
-				if(error) reject(error);
+				if(error) {
+					console.error('Upload', error);
+					reject(error);
+				}
 				resolve(result);
 			});
 	});

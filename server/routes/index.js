@@ -26,6 +26,7 @@ router.post('/', function(req, res, next) {
 
   imageService.uploadImages(album)
     .then(function(){
+      console.log('Images done');
        azureTable.createAlbum(album);
     }, function(err){
        console.error('whops', err);

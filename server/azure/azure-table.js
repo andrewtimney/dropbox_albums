@@ -1,13 +1,13 @@
 var azureStorage = require('azure-storage');
 var shortid = require('shortid');
-
+console.log('azure-table');
 var TABLE_NAME = "albums";
 
 var tableService;
 if(process.env.NODE_ENV === 'production'){
 	tableService = azureStorage.createTableService();
 }else{
-	tableService = azureStorage.createTableService('UseDevelopmentStorage=true;'); 
+	tableService = azureStorage.createTableService('UseDevelopmentStorage=true;');
 }
 
 tableService.createTableIfNotExists(TABLE_NAME, function(error, result, response){
@@ -19,7 +19,7 @@ var entGen = azureStorage.TableUtilities.entityGenerator;
 function createAlbum(al){
 	var album = {
 		PartitionKey: entGen.String("1"),
-  		RowKey: entGen.String(al.id),
+  	RowKey: entGen.String(al.id),
 		expires: entGen.DateTime(al.expires),
 		files: entGen.String(JSON.stringify(al.azureFiles)),
 		email: entGen.String(al.email)

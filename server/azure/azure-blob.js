@@ -18,7 +18,7 @@ blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {
 		publicAccessLevel: 'blob'
 	},
 	function(error, result, response){
-		if(error) console.error(`Could not create Container ${IMG_CONTAINER_NAME}`,error);
+		if(error) console.error('Could not create Container '+IMG_CONTAINER_NAME,error);
 	});
 
 

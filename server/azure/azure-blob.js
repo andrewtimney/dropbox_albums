@@ -22,7 +22,7 @@ blobService.createContainerIfNotExists(IMG_CONTAINER_NAME, {
 	});
 
 
-function download(url, file){
+function download(url){
 	return new Promise(function(resolve, reject){
 			resolve(request.get(url));
 	});
@@ -40,6 +40,19 @@ function upload(filePath, folder){
 				resolve(result);
 			});
 	});
+}
+
+function uploadStream(stream){
+	var writeStream = blobService.createWriteStreamToBlockBlob(
+		IMG_CONTAINER_NAME, filename, {contentType:'image/jpeg'},
+	function(er, result, res){
+		if(er){
+			console.error(er);
+		}else{
+			console.log('wit', result, res);
+		}
+	});
+	stream.pipe(writeStream);
 }
 
 function getImages(id){
@@ -62,5 +75,6 @@ module.exports = {
 		}
 	},
 	download: download,
-	upload: upload
+	upload: upload,
+	uploadStream: uploadStream
 };

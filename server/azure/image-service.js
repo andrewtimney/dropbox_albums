@@ -15,7 +15,7 @@ function downloadImage(url, folderName){
 				blob.download(url, tempPath)
 				.then(function(response){
 					 var stream = response.pipe(fileStream);
-					 stream.on('finish', function () {
+					 stream.on('end', function () {
 					 	resolve({ tempPath: tempPath, url: url });
 					 });
 				},
@@ -48,8 +48,7 @@ function uploadImages(album){
 	}
 	return Promise.all(promises).then(function(){
 		var tempFolder = path.join(__dirname, '../../temp', album.id);
-		//console.log(tempFolder);
-		//deleteFolderRecursive(tempFolder);
+		deleteFolderRecursive(tempFolder);
 		return album;
 	});
 }
@@ -65,6 +64,7 @@ var deleteFolderRecursive = function(path) {
           if(fs.statSync(curPath).isDirectory()) { // recurse
               deleteFolderRecursive(curPath);
           } else { // delete file
+						console.log('unlinking '+curPath);
               fs.unlinkSync(curPath);
           }
       });

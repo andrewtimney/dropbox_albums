@@ -1,12 +1,12 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
-		
-		<h2>Album <a href="/o?i=@model.album.id">@model.album.id</a></h2>
-		
+
+		<h2>Album <a href="/o?i=@model.album.id">@model.album.title</a></h2>
+
 		@model.album.files.forEach(function(file){
 			<img src="@file" width="500" height="500" />
 		})
-	}) 
-	
+	})
+
 })

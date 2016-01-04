@@ -23,3 +23,10 @@ gulp.task('server', ['default'], function(){
      server.start.bind(server)
    });
 });
+
+gulp.task('test', function(){
+  var test = require('./test/azure');
+  test.get();
+  test.down();
+  test.container();
+});

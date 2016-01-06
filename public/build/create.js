@@ -28,7 +28,6 @@ var Images = React.createClass({
 			images.push(React.createElement('img', { src: this.setThumbnailProps(this.props.images[i].thumbnailLink),
 				className: 'image', onClick: this.onRemove.bind(this, i) }));
 		}
-
 		return React.createElement(
 			'div',
 			{ id: 'selected' },
@@ -70,7 +69,6 @@ var Form = React.createClass({
 		return { files: [] };
 	},
 	gotFiles: function gotFiles(files) {
-		console.log('got files');
 		this.setState({ files: files });
 	},
 
@@ -85,7 +83,8 @@ var Form = React.createClass({
 				React.createElement('input', { type: 'email', name: 'email', placeholder: 'Email Address', required: true,
 					className: 'form-control' }),
 				React.createElement(Images, { images: this.state.files }),
-				React.createElement('input', { type: 'hidden', id: 'results', name: 'results', value: JSON.stringify(this.state.files) }),
+				React.createElement('input', { type: 'hidden', id: 'results', name: 'results',
+					value: JSON.stringify(this.state.files) }),
 				React.createElement(
 					'button',
 					{ type: 'submit', id: 'create' },

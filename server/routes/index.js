@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
       console.error('whops', err);
     });
 
-    res.redirect('/o?i='+album.id);
+  res.redirect('/o?i='+album.id);
 
   //res.render('albumBeingCreated', { title: 'Album Being Created', id: album.id });
 });

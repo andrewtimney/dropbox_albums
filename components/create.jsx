@@ -27,7 +27,6 @@ var Images = React.createClass({
 					className="image" onClick={this.onRemove.bind(this, i)} />
 			);
 		}
-
 		return <div id="selected">
 			{line}
 			{images}
@@ -60,7 +59,6 @@ var Form = React.createClass({
 		return { files: []};
 	},
 	gotFiles(files){
-		console.log('got files');
 		this.setState({files:files});
 	},
 	render: function(){
@@ -70,7 +68,8 @@ var Form = React.createClass({
 					<input type="email" name="email" placeholder="Email Address" required
 						className="form-control" />
 					<Images images={this.state.files} />
-					<input type="hidden" id="results" name="results" value={JSON.stringify(this.state.files)} />
+					<input type="hidden" id="results" name="results"
+						value={JSON.stringify(this.state.files)} />
 					<button type="submit" id="create">Create</button>
 				</form>
 			   </div>;

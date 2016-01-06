@@ -6,14 +6,22 @@ var path = require('path');
 var fse = require('fs-extra');
 var urlP = require('url');
 
-function moveImageToAzure(url, id){
+function moveImageToAzure(url, id, isThumb){
 	return new Promise(function(resolve, reject){
 		try{
 				return blob.download(url)
 				.then(function(response){
-					var filename = path.join(id, path.basename(decodeURI(url)).replace(' ','_'))
+
+					var filename = path.join(
+													id,
+													isThumb ? 'thumb' : '',
+													path.basename(decodeURI(url)).replace(' ','_'))
 													.replace('\\', '/');
-					console.log('download', filename);
+
+					if(isThumb && filename.indexOf('?') !== -1){
+						filename = filename.substring(0, filename.indexOf('?'));
+					}
+
 					return uploadImageStream(response, filename)
 						.then(function(result){
 							resolve({ url: filename });
@@ -33,14 +41,17 @@ function uploadImageStream(stream, filename){
 }
 
 function uploadImages(album){
-	var files = album.files;
+	var files = album.files; // Dropbox files https://www.dropbox.com/developers/chooser
 	var promises = [];
 	for(var i = 0; i < files.length; i++){
 		promises.push(
 			moveImageToAzure(files[i].link, album.id).then(function(result){
-					console.log('blob file', result.url, 	decodeURI(result.url.replace('\\', '/')));
 						album.azureFiles.push(decodeURI(result.url));
-						console.log('File put', result);
+				})
+		);
+		promises.push(
+			moveImageToAzure(files[i].thumbnailLink, album.id, true).then(function(result){
+						album.azureFiles.push(decodeURI(result.url));
 				})
 		);
 	}

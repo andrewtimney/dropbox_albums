@@ -6,6 +6,7 @@
     "start": "node ./bin/www",
     "prepublish": "gulp"
   },
+  "engines" : { "node" : ">=4" },
   "dependencies": {
     "azure-storage": "^0.6.0",
     "bluebird": "^3.0.5",

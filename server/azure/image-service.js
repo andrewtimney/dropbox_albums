@@ -4,20 +4,20 @@ var Promise = require('bluebird');
 var fs = require('fs');
 var path = require('path');
 var fse = require('fs-extra');
+var urlP = require('url');
 
-function downloadImage(url, folderName){
+function moveImageToAzure(url, id){
 	return new Promise(function(resolve, reject){
 		try{
-				var tempFolder = utils.getTempFolder(folderName);
-				var tempPath = utils.getTempPath(tempFolder, url);
-				var fileStream = fs.createWriteStream(tempPath);
-
-				blob.download(url, tempPath)
+				return blob.download(url)
 				.then(function(response){
-					 var stream = response.pipe(fileStream);
-					 stream.on('end', function () {
-					 	resolve({ tempPath: tempPath, url: url });
-					 });
+					var filename = path.join(id, path.basename(url));
+					console.log('download', filename);
+					return uploadImageStream(response, filename)
+						.then(function(result){
+							resolve({ url: filename });
+						},
+					reject);
 				},
 				reject);
 			}
@@ -27,12 +27,8 @@ function downloadImage(url, folderName){
 	});
 }
 
-function uploadImage(file, album){
-	return blob.upload(file, album.id)
-		.then(function(result){
-			album.azureFiles.push(decodeURI(result.replace('\\', '/')));
-			//fse.removeSync(file);
-		});
+function uploadImageStream(stream, filename){
+	return blob.uploadStream(stream, filename);
 }
 
 function uploadImages(album){
@@ -40,15 +36,15 @@ function uploadImages(album){
 	var promises = [];
 	for(var i = 0; i < files.length; i++){
 		promises.push(
-			downloadImage(files[i].link, album.id)
-				.then(function(download){
-					return uploadImage(download.tempPath, album);
+			moveImageToAzure(files[i].link, album.id).then(function(result){
+						album.azureFiles.push(
+							decodeURI(result.url.replace('\\', '/'))
+						);
+						console.log('File put', result);
 				})
 		);
 	}
 	return Promise.all(promises).then(function(){
-		var tempFolder = path.join(__dirname, '../../temp', album.id);
-		deleteFolderRecursive(tempFolder);
 		return album;
 	});
 }

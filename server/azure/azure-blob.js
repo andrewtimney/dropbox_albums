@@ -42,17 +42,20 @@ function upload(filePath, folder){
 	});
 }
 
-function uploadStream(stream){
-	var writeStream = blobService.createWriteStreamToBlockBlob(
-		IMG_CONTAINER_NAME, filename, {contentType:'image/jpeg'},
-	function(er, result, res){
-		if(er){
-			console.error(er);
-		}else{
-			console.log('wit', result, res);
-		}
+function uploadStream(stream, filepath){
+	return new Promise(function(resolve, reject){
+		var writeStream = blobService.createWriteStreamToBlockBlob(
+			IMG_CONTAINER_NAME, filepath, {},
+		function(er, result, response){
+			if(er){
+				console.error(er);
+				reject(er);
+			}else{
+				resolve(result);
+			}
+		});
+		stream.pipe(writeStream);
 	});
-	stream.pipe(writeStream);
 }
 
 function getImages(id){

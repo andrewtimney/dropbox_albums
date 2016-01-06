@@ -6,6 +6,7 @@ var tableService;
 if(process.env.NODE_ENV === 'production'){
 	tableService = azureStorage.createTableService();
 }else{
+	console.info('development');
 	tableService = azureStorage.createTableService('UseDevelopmentStorage=true;');
 }
 
@@ -24,7 +25,7 @@ function createAlbum(al){
 		email: entGen.String(al.email)
 	};
 	tableService.insertEntity(TABLE_NAME, album, function(error, result, response){
-		if(error) console.error('Could not Create Album'+ al.id, error);
+		if(error) console.error('Could not Create Album '+ al.id, error);
 		console.log('Album created');
 	});
 }
@@ -33,7 +34,7 @@ function getAlbum(id, callback){
 	tableService.retrieveEntity(TABLE_NAME, "1", id, function(error, result, response){
 		callback(result, error);
 		if(error){
-			console.error('Could not retrieve album'+ id, error);
+			console.error('Could not retrieve album '+ id, error);
 		}
 	});
 }

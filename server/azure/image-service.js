@@ -11,7 +11,8 @@ function moveImageToAzure(url, id){
 		try{
 				return blob.download(url)
 				.then(function(response){
-					var filename = path.join(id, path.basename(url));
+					var filename = path.join(id, path.basename(decodeURI(url)).replace(' ','_'))
+													.replace('\\', '/');
 					console.log('download', filename);
 					return uploadImageStream(response, filename)
 						.then(function(result){
@@ -37,9 +38,8 @@ function uploadImages(album){
 	for(var i = 0; i < files.length; i++){
 		promises.push(
 			moveImageToAzure(files[i].link, album.id).then(function(result){
-						album.azureFiles.push(
-							decodeURI(result.url.replace('\\', '/'))
-						);
+					console.log('blob file', result.url, 	decodeURI(result.url.replace('\\', '/')));
+						album.azureFiles.push(decodeURI(result.url));
 						console.log('File put', result);
 				})
 		);

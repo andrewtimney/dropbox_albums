@@ -22,7 +22,8 @@ function createAlbum(al){
   	RowKey: entGen.String(al.id),
 		expires: entGen.DateTime(al.expires),
 		files: entGen.String(JSON.stringify(al.azureFiles)),
-		email: entGen.String(al.email)
+		email: entGen.String(al.email),
+		title: entGen.String(al.title)
 	};
 	tableService.insertEntity(TABLE_NAME, album, function(error, result, response){
 		if(error) console.error('Could not Create Album '+ al.id, error);

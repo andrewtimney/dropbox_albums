@@ -160,7 +160,7 @@ var Create = React.createClass({
 					React.createElement(
 						'form',
 						{ className: createClassName, method: 'POST' },
-						React.createElement(Input, { type: 'text', name: 'title', placeholder: 'Album Title',
+						React.createElement(Input, { type: 'text', name: 'albumTitle', id: 'albumTitle', placeholder: 'Album Title',
 							buttonAfter: createButton }),
 						React.createElement('input', { type: 'hidden', id: 'results', name: 'results',
 							value: JSON.stringify(this.state.files) })

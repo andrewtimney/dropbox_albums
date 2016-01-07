@@ -7,7 +7,6 @@ var azureTable = require('../azure/azure-table');
 var azureBlob = require('../azure/azure-blob');
 var imageService = require('../azure/image-service');
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Album' });
 });
@@ -21,7 +20,7 @@ router.post('/', function(req, res, next) {
     azureFiles: [],
     expires: moment().add(7, 'days').toDate(),
     id: shortid.generate(),
-    title: req.body.title
+    title: req.body.albumTitle
   };
 
   imageService.uploadImages(album)
@@ -44,7 +43,7 @@ router.get('/o', function(req, res, next) {
       if(error || !result){
         return res.render('albumBeingCreated', { title: 'Album Being Created', id: req.query.i });
       }
-
+      console.log(result);
       var files = JSON.parse(result.files._);
 
       if(result.expires._ < new Date()){
@@ -55,9 +54,11 @@ router.get('/o', function(req, res, next) {
         album: {
           id:req.query.i,
           files: files.map(function(file){
-              return azureBlob.createBlobUrl(file);
-            })}
-        });
+              return azureBlob.createBlobUrl(file.thumb);
+          }),
+          title: result.title._
+        }
+      });
     });
   }
   catch(error){

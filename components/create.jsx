@@ -114,7 +114,7 @@ var Create = React.createClass({
 							</Col>
 							<Col md={4}>
 								<form className={createClassName} method="POST">
-									<Input type="text" name="title" placeholder="Album Title"
+									<Input type="text" name="albumTitle" id="albumTitle" placeholder="Album Title"
 										buttonAfter={createButton} />
 									<input type="hidden" id="results" name="results"
 										value={JSON.stringify(this.state.files)} />

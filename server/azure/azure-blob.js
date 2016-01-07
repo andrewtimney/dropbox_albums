@@ -4,6 +4,7 @@ var request = require('request');
 var fs = require('fs');
 var shortid = require('shortid');
 var Promise = require('bluebird');
+var mime = require('mime');
 
 var IMG_CONTAINER_NAME = "images";
 
@@ -45,7 +46,7 @@ function upload(filePath, folder){
 function uploadStream(stream, filepath){
 	return new Promise(function(resolve, reject){
 		var writeStream = blobService.createWriteStreamToBlockBlob(
-			IMG_CONTAINER_NAME, filepath, {},
+			IMG_CONTAINER_NAME, filepath, { contentType:mime.lookup(filepath) },
 		function(er, result, response){
 			if(er){
 				console.error(er);

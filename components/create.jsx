@@ -100,7 +100,15 @@ var Create = React.createClass({
 		return	<Grid>
 						<Row>
 							<Col md={12}>
-								<h1>Share your dropbox pictures</h1>
+								<Row>
+									<Col md={6}>
+										<h1>Share your dropbox pictures</h1>
+									</Col>
+									<Col md={6}>
+										<div className="pull-right">twitter</div>	
+									</Col>
+								</Row>
+								<div className="clear"></div>
 								<a onClick={this.toggleHelp}>{helpText}</a>
 								<Alert bsStyle="info" className={helpClass}>
 									This should probably be useful but it's not.

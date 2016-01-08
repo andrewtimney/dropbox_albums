@@ -11,11 +11,8 @@ a {
   padding:10px 0;
 }
 
-#selected img{
- margin-right: 5px;
-}
-
 .image{
-  border:3px solid #2780e3;
   width:150px;
+  margin-right: 20px;
+  margin-bottom:20px;
 }

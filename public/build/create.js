@@ -129,10 +129,28 @@ var Create = React.createClass({
 					Col,
 					{ md: 12 },
 					React.createElement(
-						'h1',
+						Row,
 						null,
-						'Share your dropbox pictures'
+						React.createElement(
+							Col,
+							{ md: 6 },
+							React.createElement(
+								'h1',
+								null,
+								'Share your dropbox pictures'
+							)
+						),
+						React.createElement(
+							Col,
+							{ md: 6 },
+							React.createElement(
+								'div',
+								{ className: 'pull-right' },
+								'twitter'
+							)
+						)
 					),
+					React.createElement('div', { className: 'clear' }),
 					React.createElement(
 						'a',
 						{ onClick: this.toggleHelp },

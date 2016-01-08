@@ -7,7 +7,7 @@
     <hr />
 
 		@model.album.files.forEach(function(file){
-			<img src="@file" width="150" height="150" />
+			<img src="@file" class="image" />
 		})
 	})
 

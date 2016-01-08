@@ -1,5 +1,4 @@
 var blob = require('./azure-blob');
-var utils = require('../utils')
 var Promise = require('bluebird');
 var path = require('path');
 var urlP = require('url');

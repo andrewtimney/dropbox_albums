@@ -14,6 +14,8 @@ gulp.task('server', ['default'], function(){
   var server = gls.new('./bin/www');
   server.start();
 
+  gulp.watch(['components/*.jsx'], ['default']);
+
   gulp.watch(['public/**/*.js', 'public/**/*.css'], function(event){
       server.notify.apply(server, [event])
   });

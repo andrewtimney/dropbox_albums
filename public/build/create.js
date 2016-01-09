@@ -53,11 +53,10 @@ var DropboxButton = React.createClass({
 			'span',
 			null,
 			React.createElement(
-				Button,
-				{
-					onClick: this.handleClick,
-					bsStyle: 'primary' },
-				'Select Dropbox Pictures'
+				'div',
+				{ className: 'dropboxBtn', onClick: this.handleClick },
+				React.createElement('i', { className: 'fa fa-dropbox fa-2x' }),
+				' Select Your Pictures From Dropbox'
 			)
 		);
 	}
@@ -146,11 +145,14 @@ var Create = React.createClass({
 							React.createElement(
 								'div',
 								{ className: 'pull-right' },
-								'twitter'
+								React.createElement(
+									'a',
+									{ href: 'https://twitter.com/timney' },
+									React.createElement('i', { className: 'fa fa-twitter' })
+								)
 							)
 						)
 					),
-					React.createElement('div', { className: 'clear' }),
 					React.createElement(
 						'a',
 						{ onClick: this.toggleHelp },
@@ -160,13 +162,12 @@ var Create = React.createClass({
 						Alert,
 						{ bsStyle: 'info', className: helpClass },
 						'This should probably be useful but it\'s not.'
-					),
-					React.createElement('hr', null)
+					)
 				)
 			),
 			React.createElement(
 				Row,
-				null,
+				{ className: 'newRow' },
 				React.createElement(
 					Col,
 					{ md: 4 },

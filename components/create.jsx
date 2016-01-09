@@ -45,11 +45,9 @@ var DropboxButton = React.createClass({
 	},
 	render: function(){
 		return <span>
-		   <Button
-				 onClick={this.handleClick}
-				 bsStyle="primary">
-				 Select Dropbox Pictures
-			 </Button>
+			<div className="dropboxBtn" onClick={this.handleClick}>
+				<i className="fa fa-dropbox fa-2x"></i> Select Your Pictures From Dropbox
+			</div>
 		 </span>;
 	}
 });
@@ -105,18 +103,20 @@ var Create = React.createClass({
 										<h1>Share your dropbox pictures</h1>
 									</Col>
 									<Col md={6}>
-										<div className="pull-right">twitter</div>	
+										<div className="pull-right">
+											<a href="https://twitter.com/timney">
+												<i className="fa fa-twitter"></i>
+											</a>
+										</div>
 									</Col>
 								</Row>
-								<div className="clear"></div>
 								<a onClick={this.toggleHelp}>{helpText}</a>
 								<Alert bsStyle="info" className={helpClass}>
 									This should probably be useful but it's not.
 								</Alert>
-								<hr/>
 							</Col>
 						</Row>
-						<Row>
+						<Row className="newRow">
 							<Col md={4}>
 								<DropboxButton files={this.state.files} onSuccess={this.gotFiles} />
 							</Col>

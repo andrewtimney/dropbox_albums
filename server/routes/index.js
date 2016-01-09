@@ -6,6 +6,7 @@ var moment = require('moment');
 var azureTable = require('../azure/azure-table');
 var azureBlob = require('../azure/azure-blob');
 var imageService = require('../azure/image-service');
+var io;
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Album' });
@@ -27,6 +28,7 @@ router.post('/', function(req, res, next) {
     .then(function(al){
       console.log('Images done');
       azureTable.createAlbum(al);
+      io.emit('album done', { success: true });
     }, function(err){
       console.error('whops', err);
     });
@@ -43,7 +45,7 @@ router.get('/o', function(req, res, next) {
       if(error || !result){
         return res.render('albumBeingCreated', { title: 'Album Being Created', id: req.query.i });
       }
-      console.log(result);
+
       var files = JSON.parse(result.files._);
 
       if(result.expires._ < new Date()){
@@ -66,4 +68,9 @@ router.get('/o', function(req, res, next) {
   }
 });
 
-module.exports = router;
+module.exports = {
+  router: router,
+  loadIO: function(socketio){
+    io = socketio;
+  }
+};

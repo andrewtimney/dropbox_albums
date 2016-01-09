@@ -4,8 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var routes = require('./server/routes/index');
+var index = require('./server/routes/index');
+var routes = index.router;
 
 var app = express();
 
@@ -55,4 +55,9 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+module.exports = {
+  app: app,
+  io: function(socketio){
+    index.loadIO(socketio);
+  }
+};

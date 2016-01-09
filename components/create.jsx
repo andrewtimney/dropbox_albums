@@ -4,6 +4,7 @@ var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 var Input = ReactBootstrap.Input;
 var Alert = ReactBootstrap.Alert;
+var Panel = ReactBootstrap.Panel;
 
 var Images = React.createClass({
 	setMode(url){
@@ -81,9 +82,6 @@ var Create = React.createClass({
 	gotFiles(files){
 		this.setState({files:files});
 	},
-	toggleHelp(){
-		this.setState({showHelp: !this.state.showHelp});
-	},
 	removeImage(index){
 		this.state.files.splice(index, 1);
 		this.setState({files: this.state.files});
@@ -101,6 +99,16 @@ var Create = React.createClass({
 								<Row>
 									<Col md={6}>
 										<h1>Share your dropbox pictures</h1>
+											<div className="form">
+												<DropboxButton files={this.state.files} onSuccess={this.gotFiles} />
+												<form className={createClassName} method="POST">
+													<Input type="text" name="albumTitle" id="albumTitle"
+														placeholder="Album Title (optional)"
+														buttonAfter={createButton} />
+													<input type="hidden" id="results" name="results"
+														value={JSON.stringify(this.state.files)} />
+												</form>
+											</div>
 									</Col>
 									<Col md={6}>
 										<div className="pull-right">
@@ -108,25 +116,13 @@ var Create = React.createClass({
 												<i className="fa fa-twitter"></i>
 											</a>
 										</div>
+										<Panel>
+											<h3>How does this work?</h3>
+											Select the pictures from Dropbox that you want to share,
+											we create your album, you get an unique link to your album.
+										</Panel>
 									</Col>
 								</Row>
-								<a onClick={this.toggleHelp}>{helpText}</a>
-								<Alert bsStyle="info" className={helpClass}>
-									This should probably be useful but it's not.
-								</Alert>
-							</Col>
-						</Row>
-						<Row className="newRow">
-							<Col md={4}>
-								<DropboxButton files={this.state.files} onSuccess={this.gotFiles} />
-							</Col>
-							<Col md={4}>
-								<form className={createClassName} method="POST">
-									<Input type="text" name="albumTitle" id="albumTitle" placeholder="Album Title"
-										buttonAfter={createButton} />
-									<input type="hidden" id="results" name="results"
-										value={JSON.stringify(this.state.files)} />
-								</form>
 							</Col>
 						</Row>
 						<Row>

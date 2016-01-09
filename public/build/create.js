@@ -6,6 +6,7 @@ var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 var Input = ReactBootstrap.Input;
 var Alert = ReactBootstrap.Alert;
+var Panel = ReactBootstrap.Panel;
 
 var Images = React.createClass({
 	displayName: 'Images',
@@ -102,9 +103,6 @@ var Create = React.createClass({
 	gotFiles: function gotFiles(files) {
 		this.setState({ files: files });
 	},
-	toggleHelp: function toggleHelp() {
-		this.setState({ showHelp: !this.state.showHelp });
-	},
 	removeImage: function removeImage(index) {
 		this.state.files.splice(index, 1);
 		this.setState({ files: this.state.files });
@@ -137,6 +135,20 @@ var Create = React.createClass({
 								'h1',
 								null,
 								'Share your dropbox pictures'
+							),
+							React.createElement(
+								'div',
+								{ className: 'form' },
+								React.createElement(DropboxButton, { files: this.state.files, onSuccess: this.gotFiles }),
+								React.createElement(
+									'form',
+									{ className: createClassName, method: 'POST' },
+									React.createElement(Input, { type: 'text', name: 'albumTitle', id: 'albumTitle',
+										placeholder: 'Album Title (optional)',
+										buttonAfter: createButton }),
+									React.createElement('input', { type: 'hidden', id: 'results', name: 'results',
+										value: JSON.stringify(this.state.files) })
+								)
 							)
 						),
 						React.createElement(
@@ -150,39 +162,18 @@ var Create = React.createClass({
 									{ href: 'https://twitter.com/timney' },
 									React.createElement('i', { className: 'fa fa-twitter' })
 								)
+							),
+							React.createElement(
+								Panel,
+								null,
+								React.createElement(
+									'h3',
+									null,
+									'How does this work?'
+								),
+								'Select the pictures from Dropbox that you want to share, we create your album, you get an unique link to your album.'
 							)
 						)
-					),
-					React.createElement(
-						'a',
-						{ onClick: this.toggleHelp },
-						helpText
-					),
-					React.createElement(
-						Alert,
-						{ bsStyle: 'info', className: helpClass },
-						'This should probably be useful but it\'s not.'
-					)
-				)
-			),
-			React.createElement(
-				Row,
-				{ className: 'newRow' },
-				React.createElement(
-					Col,
-					{ md: 4 },
-					React.createElement(DropboxButton, { files: this.state.files, onSuccess: this.gotFiles })
-				),
-				React.createElement(
-					Col,
-					{ md: 4 },
-					React.createElement(
-						'form',
-						{ className: createClassName, method: 'POST' },
-						React.createElement(Input, { type: 'text', name: 'albumTitle', id: 'albumTitle', placeholder: 'Album Title',
-							buttonAfter: createButton }),
-						React.createElement('input', { type: 'hidden', id: 'results', name: 'results',
-							value: JSON.stringify(this.state.files) })
 					)
 				)
 			),

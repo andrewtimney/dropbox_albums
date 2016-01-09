@@ -1,10 +1,11 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
+      <div class="container">
+    		<h2>Album @model.id</h2>
 
-  		<h2>Album @model.id</h2>
-
-  		<p>This album is being created, you will be notified when it is ready</p>
+    		<p>This album is being created, you will be notified when it is ready</p>
+      </div>
   	})
 
     @html.block('script', function(){

@@ -12,6 +12,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Album' });
 });
 
+router.get('/a', function(req, res, next) {
+  res.render('albumBeingCreated', { });
+});
+
 router.post('/', function(req, res, next) {
 
   var files = JSON.parse(req.body.results);
@@ -49,6 +53,7 @@ router.get('/o', function(req, res, next) {
       var files = JSON.parse(result.files._);
 
       if(result.expires._ < new Date()){
+        // Album expired
         res.render('albumNotFound', {id:req.query.i});
       }
 

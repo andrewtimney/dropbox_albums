@@ -61,9 +61,11 @@ router.get('/o', function(req, res, next) {
         album: {
           id:req.query.i,
           files: files.map(function(file){
-              return azureBlob.createBlobUrl(file.thumb);
+            return { thumb:azureBlob.createBlobUrl(file.thumb),
+              image:azureBlob.createBlobUrl(file.image)};
           }),
-          title: result.title._
+          title: result.title._,
+          expires: moment(result.expires._)
         }
       });
     });

@@ -2,10 +2,10 @@
 
     @html.block('content', function(model){
       <div class="container">
-    		<h2>
+    		<h1>
           <i class="fa fa-cog fa-spin"></i>
           Creating Your Album
-        </h2>
+        </h1>
 
     		<p>This page will refresh when your album is ready</p>
 
@@ -14,7 +14,7 @@
             Your album can be found at this url
           </div>
           <div class="panel-body">
-            <a>http://plop.com/o?i=eihe98jk</a>
+            <a href="" class="albumUrl"></a>
           </div>
         </div>
 
@@ -24,6 +24,11 @@
     @html.block('script', function(){
       <script src="/socket.io/socket.io.js"></script>
       <script>
+
+      var albumUrl = document.querySelector('.albumUrl');
+      albumUrl.textContent = location.href;
+      albumUrl.setAttribute('href', location.href);
+
       var socket = io();
       socket.on('album done', function(success){
         console.log('success', success);

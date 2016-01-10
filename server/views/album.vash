@@ -1,14 +1,29 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
+    <div class="container-fluid">
+      <div>
+        <div class="pull-left">
+      		<h2>
+            @(model.album.title ? '' : 'Album:')
+            <a href="/o?i=@model.album.id">
+              @(model.album.title || model.album.id)
+            </a>
+          </h2>
+        </div>
+        <div class="pull-right">
+          <label class="label label-default">http://localhost/a</label>
+          <br />
+          Expires in @model.album.expires.fromNow()
+        </div>
+        <div class="clear"></div>
+      </div>
+      <hr />
 
-		<h2><a href="/o?i=@model.album.id">@model.album.title</a></h2>
-
-    <hr />
-
-		@model.album.files.forEach(function(file){
-			<img src="@file" class="image" />
-		})
+  		@model.album.files.forEach(function(file){
+  			<img src="@file.thumb" class="image" data-img="@file.image" />
+  		})
+    </div>
 	})
 
 

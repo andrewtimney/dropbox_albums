@@ -2,9 +2,22 @@
 
     @html.block('content', function(model){
       <div class="container">
-    		<h2>Album @model.id</h2>
+    		<h2>
+          <i class="fa fa-cog fa-spin"></i>
+          Creating Your Album
+        </h2>
 
-    		<p>This album is being created, you will be notified when it is ready</p>
+    		<p>This page will refresh when your album is ready</p>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Your album can be found at this url
+          </div>
+          <div class="panel-body">
+            <a>http://plop.com/o?i=eihe98jk</a>
+          </div>
+        </div>
+
       </div>
   	})
 

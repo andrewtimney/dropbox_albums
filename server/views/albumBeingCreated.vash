@@ -1,43 +1,12 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
-      <div class="container">
-    		<h1>
-          <i class="fa fa-cog fa-spin"></i>
-          Creating Your Album
-        </h1>
-
-    		<p>This page will refresh when your album is ready</p>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Your album can be found at this url
-          </div>
-          <div class="panel-body">
-            <a href="" class="albumUrl"></a>
-          </div>
-        </div>
-
-      </div>
+      <div id="react"></div>
   	})
 
     @html.block('script', function(){
       <script src="/socket.io/socket.io.js"></script>
-      <script>
-
-      var albumUrl = document.querySelector('.albumUrl');
-      albumUrl.textContent = location.href;
-      albumUrl.setAttribute('href', location.href);
-
-      var socket = io();
-      socket.on('album done', function(success){
-        console.log('success', success);
-        if(success){
-          document.location.reload();
-        }
-      });
-      </script>
+      <script src="/build/albumBeingCreated.js"></script>
     })
-
 
 })

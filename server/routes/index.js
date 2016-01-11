@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/a', function(req, res, next) {
-  res.render('albumBeingCreated', { id: 'sdf9dfskdsf'});
+  res.render('albumBeingCreated', { title: 'Album' });
 });
 
 router.post('/', function(req, res, next) {

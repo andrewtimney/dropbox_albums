@@ -1,11 +1,12 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
-  	   @html.raw(model.react)
+  	   <div id="react"></div>
   	})
 
 	@html.block('script', function(){
 		<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="jasb729ylbv36rm"></script>
+    <script src="/build/create.js"></script>
 	})
 
 })

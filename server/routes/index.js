@@ -54,9 +54,11 @@ router.get('/o', function(req, res, next) {
 
       if(result.expires._ < new Date()){
         // Album expired
+        console.error('Album expired');
         res.render('albumNotFound', {id:req.query.i});
+        return;
       }
-
+      console.log('Album found', files);
       res.render('album', {
         album: {
           id:req.query.i,
@@ -71,6 +73,7 @@ router.get('/o', function(req, res, next) {
     });
   }
   catch(error){
+    console.error('Something bad happened', error);
     res.render('albumNotFound', {id:req.query.i});
   }
 });

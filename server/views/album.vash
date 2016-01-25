@@ -2,39 +2,45 @@
 
     @html.block('content', function(model){
     <div class="container-fluid">
-      <div>
-        <div class="pull-left">
-      		<h2>
-            @(model.album.title ? '' : 'Album:')
-            <a href="/o?i=@model.album.id">
-              @(model.album.title || model.album.id)
-            </a>
-          </h2>
+        <div>
+          <div class="pull-left">
+        		<h2>
+              @(model.album.title ? '' : 'Album:')
+              <a href="/o?i=@model.album.id">
+                @(model.album.title || model.album.id)
+              </a>
+            </h2>
+          </div>
+          <div class="pull-right">
+            <label class="label label-default">http://localhost/a</label>
+            <br />
+            Expires in @model.album.expires.fromNow()
+          </div>
+          <div class="clear"></div>
         </div>
-        <div class="pull-right">
-          <label class="label label-default">http://localhost/a</label>
-          <br />
-          Expires in @model.album.expires.fromNow()
-        </div>
-        <div class="clear"></div>
-      </div>
-      <hr />
+        <hr />
 
-  		@model.album.files.forEach(function(file){
-  			<img src="@file.thumb" class="image" data-img="@file.image" />
-  		})
-    </div>
-	})
+          <div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          @model.album.files.forEach(function(file){
+            <figure itemprop="associateMedia" itemscope itemtype="http://schema.org/ImageObject">
+              <a href="@file.image" itemprop="@file.image">
+                <img src="@file.thumb" itemprop="thumbnail" alt="" width="150" />
+              </a>
+            </figure>
+          })
+          </div>
+
+      </div>
+   })
 
   @html.block('script', function(){
-    <script>
-      var images = document.querySelectorAll('.image');
-      for(var i = 0; i < images.length; i++){
-        images[i].addEventListener('click', function(){
 
-        });
-      };
-    </script>
+      <link rel="stylesheet" href="dist/photoswipe.css">
+      <link rel="stylesheet" href="dist/default-skin/default-skin.css">
+      <script src="dist/photoswipe.min.js"></script>
+      <script src="dist/photoswipe-ui-default.min.js"></script>
+      <script>
+      </script>
   })
 
 })

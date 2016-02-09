@@ -32,10 +32,19 @@
   @html.block('script', function(){
 
       <script>
+
+        var images = document.querySelectorAll('.image');
+        for(var i = 0; i < images.length; i++){
+          console.log(images[i].getAttribute('data-image'));
+          var img = new Image();
+          img.src = images[i].getAttribute('data-image');
+        }
+
         var options = {
           toolbar: 0,
           movable: false,
-          url: 'data-image'
+          url: 'data-image',
+          inline: false
         };
         var viewer = new Viewer(document.getElementById('images'), options);
       </script>

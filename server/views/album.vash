@@ -19,27 +19,25 @@
           <div class="clear"></div>
         </div>
         <hr />
-
-          <div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          <div id="images">
           @model.album.files.forEach(function(file){
-            <figure itemprop="associateMedia" itemscope itemtype="http://schema.org/ImageObject">
-              <a href="@file.image" itemprop="@file.image">
-                <img src="@file.thumb" itemprop="thumbnail" alt="" width="150" />
-              </a>
-            </figure>
+                <img src="@file.thumb" alt="" width="150"
+                  data-image="@file.image"
+                  class="image" />
           })
           </div>
-
       </div>
    })
 
   @html.block('script', function(){
 
-      <link rel="stylesheet" href="dist/photoswipe.css">
-      <link rel="stylesheet" href="dist/default-skin/default-skin.css">
-      <script src="dist/photoswipe.min.js"></script>
-      <script src="dist/photoswipe-ui-default.min.js"></script>
       <script>
+        var options = {
+          toolbar: 0,
+          movable: false,
+          url: 'data-image'
+        };
+        var viewer = new Viewer(document.getElementById('images'), options);
       </script>
   })
 

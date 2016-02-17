@@ -24,8 +24,11 @@ var Images = React.createClass({
 		var line = this.props.images.length > 0 ? <hr /> : '';
 		for(var i = 0; i < this.props.images.length; i++){
 			images.push(
-				<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)}
-					className="image" onClick={this.onRemove.bind(this, i)} />
+				<div className="imgContainer">
+					<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)}
+						className="image"  />
+					<div className="closeImg" onClick={this.onRemove.bind(this, i)}>X</div>
+				</div>
 			);
 		}
 		return <div id="selected">

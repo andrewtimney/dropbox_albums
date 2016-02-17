@@ -30,7 +30,6 @@
    })
 
   @html.block('script', function(){
-
       <script>
 
         var images = document.querySelectorAll('.image');

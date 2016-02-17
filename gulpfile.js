@@ -32,3 +32,7 @@ gulp.task('test', function(){
   test.down();
   test.container();
 });
+
+gulp.task('watch', function(){
+  gulp.watch(['components/*.jsx'], ['default'])
+});

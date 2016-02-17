@@ -26,8 +26,17 @@ var Images = React.createClass({
 		var images = [];
 		var line = this.props.images.length > 0 ? React.createElement('hr', null) : '';
 		for (var i = 0; i < this.props.images.length; i++) {
-			images.push(React.createElement('img', { src: this.setThumbnailProps(this.props.images[i].thumbnailLink),
-				className: 'image', onClick: this.onRemove.bind(this, i) }));
+			images.push(React.createElement(
+				'div',
+				{ className: 'imgContainer' },
+				React.createElement('img', { src: this.setThumbnailProps(this.props.images[i].thumbnailLink),
+					className: 'image' }),
+				React.createElement(
+					'div',
+					{ className: 'closeImg', onClick: this.onRemove.bind(this, i) },
+					'X'
+				)
+			));
 		}
 		return React.createElement(
 			'div',

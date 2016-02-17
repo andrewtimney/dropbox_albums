@@ -23,7 +23,7 @@
           @model.album.files.forEach(function(file){
                 <img src="@file.thumb" alt="" width="150"
                   data-image="@file.image"
-                  class="image" />
+                  class="image animated fadeIn" />
           })
           </div>
       </div>

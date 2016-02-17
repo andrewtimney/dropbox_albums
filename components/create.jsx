@@ -24,10 +24,10 @@ var Images = React.createClass({
 		var line = this.props.images.length > 0 ? <hr /> : '';
 		for(var i = 0; i < this.props.images.length; i++){
 			images.push(
-				<div className="imgContainer">
+				<div className="imgContainer animated slideInDown">
 					<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)}
 						className="image"  />
-					<div className="closeImg" onClick={this.onRemove.bind(this, i)}>X</div>
+					<div className="closeImg" onClick={this.onRemove.bind(this, i)}>Remove</div>
 				</div>
 			);
 		}

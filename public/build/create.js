@@ -28,13 +28,13 @@ var Images = React.createClass({
 		for (var i = 0; i < this.props.images.length; i++) {
 			images.push(React.createElement(
 				'div',
-				{ className: 'imgContainer' },
+				{ className: 'imgContainer animated slideInDown' },
 				React.createElement('img', { src: this.setThumbnailProps(this.props.images[i].thumbnailLink),
 					className: 'image' }),
 				React.createElement(
 					'div',
 					{ className: 'closeImg', onClick: this.onRemove.bind(this, i) },
-					'X'
+					'Remove'
 				)
 			));
 		}

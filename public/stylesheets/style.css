@@ -26,8 +26,14 @@ a {
   background-color: black;
   color:white;
   display:none;
+  width:150px;
+  height:150px;
+  text-align: center;
+  line-height: 150px;
+  font-size: 3em;
+  opacity:0.8;
 }
-.image:hover + .closeImg{
+.imgContainer:hover + .closeImg{
   display:block;
 }
 

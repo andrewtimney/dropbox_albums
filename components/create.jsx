@@ -27,7 +27,7 @@ var Images = React.createClass({
 				<div className="imgContainer animated slideInDown">
 					<img src={this.setThumbnailProps(this.props.images[i].thumbnailLink)}
 						className="image"  />
-					<div className="closeImg" onClick={this.onRemove.bind(this, i)}>Remove</div>
+					<div className="closeImg" onClick={this.onRemove.bind(this, i)}>X</div>
 				</div>
 			);
 		}

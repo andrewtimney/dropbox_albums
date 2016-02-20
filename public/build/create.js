@@ -34,7 +34,7 @@ var Images = React.createClass({
 				React.createElement(
 					'div',
 					{ className: 'closeImg', onClick: this.onRemove.bind(this, i) },
-					'Remove'
+					'X'
 				)
 			));
 		}
